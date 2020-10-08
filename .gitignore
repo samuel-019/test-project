@@ -1,0 +1,11 @@
+
+*.DS_Store
+*.idea
+/lib
+/reports
+/screens
+nightwatch.json
+nightwatch.js
+selenium-debug.log
+/bin
+/screenshots

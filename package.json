@@ -1,0 +1,25 @@
+{
+  "name": "xce2e",
+  "description": "this project contains xcoobee testing scripts",
+  "main": "index.js",
+  "scripts": {
+    "lint": "standard --fix"
+  },
+  "repository": "https://sjinnovation.git.beanstalkapp.com/xcoobee-e2e.git",
+  "author": "Mil <milton@teacherspayteachers.com>",
+  "license": "Yes",
+  "dependencies": {
+    "nightwatch": "^1.2.4"
+  },
+  "devDependencies": {
+    "chromedriver": "^84.0.1",
+    "selenium-server": "^3.141.59",
+    "standard": "^14.3.1"
+  },
+  "standard.options": {
+    "globals": [
+      "'@tags': ['stable']",
+      "bee"
+    ]
+  }
+}

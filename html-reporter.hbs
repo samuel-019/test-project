@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Test Results - {{browser}}</title>
+
+  <style>
+    html, body {
+      font-family: Arial,sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    body { padding: 10px 40px; }
+
+    table { width: 100%; margin-bottom: 20px; }
+
+      td {
+        padding: 7px;
+        border-top: none;
+        border-left: 1px black solid;
+        border-bottom: 1px black solid;
+        border-right: none;
+      }
+
+      td.pass { color: #003b07; background: #86e191; }
+      td.skip { color: #7d3a00; background: #ffd24a; }
+      td.fail { color: #5e0e00; background: #ff9c8a; }
+
+    tr:last-child       { border-top: 1px black solid; }
+      tr:last-child td    { border-top: 1px black solid; }
+      tr:first-child td   { border-top: 1px black solid; }
+        td:last-child       { border-right: 1px black solid; }
+
+    tr.overview td      { padding-bottom: 0px; border-bottom: none; }
+    tr.overview.last td { padding-bottom: 3px; }
+
+    ul.assertions   { list-style-type: decimal; }
+      span.error      { color: #AD2B2B; }
+      span.success    { color: #53891E; }
+
+    .stacktrace { display: inline; }
+      .stacktrace code { display: none; }
+
+    @keyframes App-logo-spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    #xcoobee-logo {
+      position: absolute;
+      /*animation: App-logo-spin infinite 2s linear;*/
+      top: 20px;
+      right: 33px;
+      width: 156px;
+      height: 48px;
+      background: url('https://testapp.xcoobee.net/static/media/logo_header.8b5ae674.svg') no-repeat;
+      background-size: 156px 48px;
+    }
+
+    .accordion.testsuite {
+      background-color: #ffd24a;
+      color: #444;
+      cursor: pointer;
+      padding: 1px 1px 1px 10px;
+      width: 100%;
+      border: solid 0.1px white;
+      text-align: left;
+      outline: none;
+      font-size: 10px;
+      transition: 0.4s;
+    }
+
+    .accordion.testsuite {
+      position: relative !important;
+      border: 1px solid black;
+      border-radius: 10px;
+    }
+
+    .accordion.testsuite h2 {
+      font-size: 18px;
+      color: #000;
+    }
+
+    .accordion.testsuite:after {
+      color: #fff;
+      font-weight: bold;
+      float: right;
+      margin-left: 5px;
+      position: absolute;
+      top: 28%;
+      right: 15px;
+      font-size: 20px;
+      content: "\2b";
+      background: black;
+      border-radius: 50%;
+      width: 23px;
+      text-align: center;
+      vertical-align: middle;
+      line-height: 23px;
+    }
+
+    .accordion.testsuite.active:after {
+      content:"\2212";
+      color: #fff;
+      font-weight: bold;
+      float: right;
+      margin-left: 5px;
+      position: absolute;
+      top: 28%;
+      right: 15px;
+      font-size: 20px;
+      background: black;
+      border-radius: 50%;
+      width: 23px;
+      text-align: center;
+      vertical-align: middle;
+      line-height: 23px;
+    }
+
+    .panel1 {
+      padding: 0 18px;
+      background-color: white;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.2s ease-out;
+      margin-bottom: 20px;
+    }
+
+    .accordion.testcase {
+      background-color: #ffd24a;
+      color: #444;
+      cursor: pointer;
+      padding: 1px 1px 1px 10px;
+      width: 100%;
+      border: solid 0.1px white;
+      text-align: left;
+      outline: none;
+      font-size: 10px;
+      transition: 0.4s;
+    }
+
+    .accordion.testcase {
+      position: relative !important;
+      border-radius: 10px;
+    }
+
+    .accordion.testcase h3 {
+      font-size: 15px;
+      color: #000;
+    }
+
+    .accordion.testcase:after {
+      color: #fff;
+      font-weight: bold;
+      float: right;
+      margin-left: 5px;
+      position: absolute;
+      top: 35%;
+      right: 15px;
+      font-size: 16px;
+      content: "\2b";
+      background: black;
+      border-radius: 50%;
+      width: 15px;
+      text-align: center;
+      vertical-align: middle;
+      line-height: 15px;
+    }
+
+    .accordion.testcase.active:after {
+      content:"\2212";
+      color: #fff;
+      font-weight: bold;
+      float: right;
+      margin-left: 5px;
+      position: absolute;
+      top: 35%;
+      right: 15px;
+      font-size: 16px;
+      background: black;
+      border-radius: 50%;
+      width: 15px;
+      text-align: center;
+      vertical-align: middle;
+      line-height: 15px;
+    }
+
+    .panel2 {
+      padding: 0 18px;
+      background-color: white;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.2s ease-out;
+      margin-bottom: 20px;
+    }
+  </style>
+  <script>
+    $( function() {
+      $( "#accordion" ).accordion({
+        heightStyle: "content"
+      });
+    } );
+  </script>
+</head>
+
+<body>
+  <h1>Test Results</h1>
+
+  <table border="0" cellpadding="0" cellspacing="0">
+    <tr class="overview">
+      <td colspan="3" title="{{browser}}"><strong>Browser:</strong> {{browser}}</td>
+    </tr>
+    <tr class="overview">
+      <td colspan="3"><strong>Timestamp:</strong> {{timestamp}}</td>
+    </tr>
+    <tr class="overview last">
+      <td colspan="3"><strong>Tests:</strong> {{results.tests}}<br></td>
+    </tr>
+    <tr>
+      <td class="pass"><strong>{{results.passed}}</strong> passed</td>
+      <td class="skip"><strong>{{results.skipped}}</strong> skipped</td>
+      <td class="fail"><strong>{{results.failed}}</strong> failures</td>
+    </tr>
+  </table>
+
+  {{#each results.modules}}
+  <div class="accordion-block-testsuite">
+    <button class="accordion testsuite"><h2>{{@key}}</h2></button>
+    <div class="panel1">
+      <p> {{#each this.completed}}
+        <div class="accordion-block-testcase">
+          <button class="accordion testcase"><h3>{{@key}}</h3></button>
+          <div class="panel2">
+            <ul class="assertions">
+              {{#each this.assertions}}
+                <li>
+                  {{#if failure}}
+                    <span class="error">&#10006;</span>
+                  {{else}}
+                    <span class="success">&#10004;</span>
+                  {{/if}}
+
+                  {{this.message}}
+
+                  {{#if this.failure}}
+                    {{this.failure}}
+                  {{/if}}
+
+                  {{#if this.stacktrace}}
+                    <div class="stacktrace">
+                        <a href="#">view stacktrace</a>
+                        <code><pre>{{this.stacktrace}}</pre></code>
+                    </div>
+                  {{/if}}
+                </li>
+              {{/each}}
+            </ul>
+
+            <p>
+              {{#if this.failed}}
+                <span class="error"><strong>FAILED:</strong></span>
+                <span class="error"><strong>{{this.failed}}</strong></span> assertions failed and
+                <span class="success"><strong>{{this.passed}}</span></strong><strong> PASSED</strong>. ({{this.time}}s)
+              {{else}}
+                <span class="success"><strong>OK.</strong></span>
+                <span class="success"><strong>{{this.passed}}</strong></span> assertions passed. ({{this.time}}s)
+              {{/if}}
+            </p>
+          </div>
+        </div>
+      {{/each}}
+      </p>
+
+      {{#if this.skipped}}
+        <h4>skipped</h4>
+        <ul>
+          {{#each this.skipped}}
+            <li>{{this}}</li>
+          {{/each}}
+        </ul>
+      {{/if}}
+
+      <hr>
+    </div>
+  </div>
+  {{/each}}
+
+  <script>
+  var acc = document.getElementsByClassName("accordion testsuite");
+  var i;
+
+  for (i = 0; i < acc.length; i++) {
+    acc[i].addEventListener("click", function() {
+      this.classList.toggle("active");
+      var panel = this.nextElementSibling;
+      if (panel.style.maxHeight){
+        panel.style.maxHeight = null;
+      } else {
+        panel.style.maxHeight = "100%";
+      } 
+    });
+  }
+  </script>
+
+  <script>
+  var acc1 = document.getElementsByClassName("accordion testcase");
+  var i;
+
+  for (i = 0; i < acc1.length; i++) {
+    acc1[i].addEventListener("click", function() {
+      this.classList.toggle("active");
+      var panel = this.nextElementSibling;
+      if (panel.style.maxHeight){
+        panel.style.maxHeight = null;
+      } else {
+        panel.style.maxHeight = panel.scrollHeight + "px";
+      } 
+    });
+  }
+  </script>
+
+  <a class="xcoobee home" href="https://testapp.xcoobee.net">
+    <div 
+      id="xcoobee-logo">
+    </div>
+  </a>
+
+  <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script>
+  $(function() {
+    $('div.stacktrace').on('click', 'a', function(evt) {
+      evt.preventDefault();
+
+      var $link = $(this);
+      var $code = $link.parent().find('code');
+
+      $code.is(':visible') ? $link.text('hide stacktrace'):
+                             $link.text('view stacktrace');
+
+      $code.toggle();
+    });
+  });
+  </script>
+</body>
+</html>
